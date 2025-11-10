@@ -8,7 +8,20 @@ mongoose.connect(process.env.MONGO_URI, {
   useNewUrlParser: true,
   useUnifiedTopology: true
 })
-.then(() => console.log(' Conectado a MongoDB Atlas'))
+.then(() => console.log(' Conectado a MongoDB Atlas'));
+const createAndSavePerson = () => {
+  const person = new Person({
+    name: 'Tomas Demaria',
+    age: 30,
+    favoriteFoods: ['Empanadas', 'Pasta']
+  });
+
+  person.save()
+    .then(data => console.log('Persona guardada correctamente:', data))
+    .catch(err => console.error('Error al guardar persona:', err));
+};
+
+createAndSavePerson();
 .catch(err => console.error(' Error al conectar con MongoDB:', err));
 
 const Person = require('./models/person');
