@@ -11,6 +11,8 @@ mongoose.connect(process.env.MONGO_URI, {
 .then(() => console.log(' Conectado a MongoDB Atlas'))
 .catch(err => console.error(' Error al conectar con MongoDB:', err));
 
+const Person = require('./models/person');
+
 app.get('/', (req, res) => {
   res.send('Servidor y base de datos configurados correctamente ');
 });
