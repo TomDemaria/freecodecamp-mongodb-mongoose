@@ -57,13 +57,22 @@ const createManyPeople = (done) => {
 };
 
 
-// 
+
 const findPeopleByName = (personName, done) => {
   Person.find({ name: personName }, (err, data) => {
     if (err) return done(err);
     done(null, data);
   });
 };
+
+// funcion para encontrar persona por comida
+const findOneByFood = (food, done) => {
+  Person.findOne({ favoriteFoods: food }, (err, person) => {
+    if (err) return done(err);
+    done(null, person);
+  });
+};
+
 
 
 // Ruta principal
