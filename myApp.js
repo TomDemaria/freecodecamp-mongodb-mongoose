@@ -3,7 +3,6 @@ const mongoose = require('mongoose');
 const express = require('express');
 const app = express();
 
-// Importar el modelo Person
 const Person = require('./models/person');
 
 // Conectarse a MongoDB Atlas
@@ -13,19 +12,16 @@ mongoose.connect(process.env.MONGO_URI, {
 })
   .then(() => {
     console.log('✅ Conectado a MongoDB Atlas');
-    // Llamamos la función para crear y guardar una persona
-    createAndSavePerson((err, data) => {
-      if (err) return console.error('❌ Error al guardar persona:', err);
-      console.log('✅ Persona guardada correctamente:', data);
+
+    // Llamar la función de crear varias personas
+    createManyPeople((err, data) => {
+      if (err) return console.error('❌ Error al crear personas:', err);
+      console.log('✅ Personas creadas correctamente:', data);
     });
   })
   .catch(err => console.error('❌ Error al conectar con MongoDB:', err));
 
-/* 
-  📘 FUNCION createAndSavePerson
-  Crea una instancia del modelo Person, 
-  la guarda en la base de datos y ejecuta el callback `done`.
-*/
+
 const createAndSavePerson = (done) => {
   const person = new Person({
     name: 'Tomas Demaria',
@@ -39,7 +35,22 @@ const createAndSavePerson = (done) => {
   });
 };
 
-// Ruta principal de prueba
+/NUEVA FUNCION: createManyPeople  Crea varios documentos al mismo tiempo usando Model.create()
+
+const createManyPeople = (done) => {
+  const arrayOfPeople = [
+    { name: 'Ana', age: 28, favoriteFoods: ['Sushi', 'Noodles'] },
+    { name: 'Carlos', age: 35, favoriteFoods: ['Tacos', 'Burritos'] },
+    { name: 'Lucía', age: 22, favoriteFoods: ['Pizza', 'Chocolate'] }
+  ];
+
+  Person.create(arrayOfPeople, (err, people) => {
+    if (err) return done(err);
+    done(null, people);
+  });
+};
+
+// Ruta principal
 app.get('/', (req, res) => {
   res.send('Servidor y base de datos configurados correctamente');
 });
@@ -47,3 +58,4 @@ app.get('/', (req, res) => {
 // Iniciar servidor
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => console.log(`🚀 Servidor corriendo en puerto ${PORT}`));
+
