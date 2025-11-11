@@ -35,7 +35,7 @@ const createAndSavePerson = (done) => {
   });
 };
 
-/NUEVA FUNCION: createManyPeople  Crea varios documentos al mismo tiempo usando Model.create()
+//NUEVA FUNCION: createManyPeople  Crea varios documentos al mismo tiempo usando Model.create()
 
 const createManyPeople = (done) => {
   const arrayOfPeople = [
